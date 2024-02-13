@@ -4,11 +4,15 @@ class Hover extends StatefulWidget {
   final Widget child;
   final double initialScale;
   final double zoomedScale;
+  final double? width;
+  final double? height;
   const Hover({
     Key? key,
     required this.child,
     this.initialScale = 1.0,
     this.zoomedScale = 2.0,
+    this.width = 250.0,
+    this.height = 250.0,
   }) : super(key: key);
 
   @override
@@ -43,9 +47,13 @@ class _HoverState extends State<Hover> {
             _scale = widget.initialScale;
           });
         },
-        child: Transform.scale(
-          scale: _scale,
-          child: widget.child,
+        child: SizedBox(
+          width: widget.width,
+          height: widget.height,
+          child: Transform.scale(
+            scale: _scale,
+            child: widget.child,
+          ),
         ),
       ),
     );

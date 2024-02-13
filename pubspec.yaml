@@ -1,6 +1,6 @@
 name: zoom_hover_pinch_image
 description: "This is an image zoom package, which you can easily use."
-version: 1.0.0
+version: 1.0.1
 homepage: "https://github.com/SwanFlutter/zoom_hover_pinch_image.git"
 
 environment:

@@ -1,3 +1,5 @@
-## 1.0.0
+## 1.0.1
 
-* Create package.
+* Add example folder.
+
+* Update package.

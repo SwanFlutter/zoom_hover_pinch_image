@@ -84,7 +84,7 @@ doubleTapZoom: false,
 
 ```yaml
 dependencies:
-  zoom_hover_pinch_image: ^1.0.0
+  zoom_hover_pinch_image: ^1.0.1
 ```
 
 ## How to use

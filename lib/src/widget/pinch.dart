@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class Pinch extends StatefulWidget {
@@ -9,6 +7,8 @@ class Pinch extends StatefulWidget {
   final double? minScale;
   final double? maxScale;
   final bool clipBehavior;
+  final double? width;
+  final double? height;
   const Pinch({
     Key? key,
     required this.child,
@@ -17,6 +17,8 @@ class Pinch extends StatefulWidget {
     this.minScale = 1.0,
     this.maxScale = 4.0,
     this.clipBehavior = true,
+    this.width = 250.0,
+    this.height = 250.0,
   }) : super(key: key);
 
   @override
@@ -39,8 +41,8 @@ class _PinchState extends State<Pinch> with SingleTickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 300),
     )..addListener(() {
-      controller.value = animation.value;
-    });
+        controller.value = animation.value;
+      });
   }
 
   @override
@@ -52,25 +54,29 @@ class _PinchState extends State<Pinch> with SingleTickerProviderStateMixin {
   void restAnimation() {
     animation =
         Matrix4Tween(begin: controller.value, end: Matrix4.identity()).animate(
-          CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
-        );
+      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+    );
     animationController.forward(from: 0);
   }
 
   @override
   Widget build(BuildContext context) {
-    return InteractiveViewer(
-      transformationController: controller,
-      clipBehavior: widget.clipBehavior ? Clip.hardEdge : Clip.none,
-      panEnabled: false,
-      onInteractionEnd: (details) {
-        restAnimation();
-      },
-      child: AspectRatio(
-        aspectRatio: widget.aspectRatio!,
-        child: ClipRRect(
-          borderRadius: widget.borderRadius,
-          child: widget.child,
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: InteractiveViewer(
+        transformationController: controller,
+        clipBehavior: widget.clipBehavior ? Clip.hardEdge : Clip.none,
+        panEnabled: false,
+        onInteractionEnd: (details) {
+          restAnimation();
+        },
+        child: AspectRatio(
+          aspectRatio: widget.aspectRatio!,
+          child: ClipRRect(
+            borderRadius: widget.borderRadius,
+            child: widget.child,
+          ),
         ),
       ),
     );

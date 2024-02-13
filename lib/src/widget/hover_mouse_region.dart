@@ -5,13 +5,16 @@ class HoverMouseRegion extends StatefulWidget {
   final double initialScale;
   final double zoomedScale;
   final double maxScale;
-
+  final double? width;
+  final double? height;
   const HoverMouseRegion({
     Key? key,
     required this.child,
     this.initialScale = 1.0,
     this.zoomedScale = 2.0,
     this.maxScale = 5.0,
+    this.width = 250.0,
+    this.height = 250.0,
   }) : super(key: key);
 
   @override
@@ -50,10 +53,14 @@ class _HoverMouseRegionState extends State<HoverMouseRegion> {
         child: Stack(
           children: [
             // Image with zoom and focal point adjustments
-            Transform.scale(
-              scale: _scale,
-              origin: _focalPoint,
-              child: widget.child,
+            SizedBox(
+              width: widget.width,
+              height: widget.height,
+              child: Transform.scale(
+                scale: _scale,
+                origin: _focalPoint,
+                child: widget.child,
+              ),
             ),
             // Transparent container for mouse events
             Container(

@@ -11,6 +11,8 @@ class Zoom extends StatefulWidget {
   final double? minScale;
   final double? maxScale;
   final bool clipBehavior;
+  final double? width;
+  final double? height;
 
   const Zoom({
     Key? key,
@@ -20,6 +22,8 @@ class Zoom extends StatefulWidget {
     this.minScale = 1.0,
     this.maxScale = 4.0,
     this.clipBehavior = true,
+    this.width = 250.0,
+    this.height = 250.0,
   }) : super(key: key);
 
   static Widget zoomOnTap({
@@ -87,15 +91,19 @@ class Zoom extends StatefulWidget {
 class _ZoomState extends State<Zoom> {
   @override
   Widget build(BuildContext context) {
-    return InteractiveViewer(
-      clipBehavior: widget.clipBehavior ? Clip.hardEdge : Clip.none,
-      minScale: widget.minScale!,
-      maxScale: widget.maxScale!,
-      child: AspectRatio(
-        aspectRatio: widget.aspectRatio!,
-        child: ClipRRect(
-          borderRadius: widget.borderRadius,
-          child: widget.child,
+    return SizedBox(
+      width: widget.width,
+      height: widget.height,
+      child: InteractiveViewer(
+        clipBehavior: widget.clipBehavior ? Clip.hardEdge : Clip.none,
+        minScale: widget.minScale!,
+        maxScale: widget.maxScale!,
+        child: AspectRatio(
+          aspectRatio: widget.aspectRatio!,
+          child: ClipRRect(
+            borderRadius: widget.borderRadius,
+            child: widget.child,
+          ),
         ),
       ),
     );

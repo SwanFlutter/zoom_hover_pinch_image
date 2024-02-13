@@ -7,7 +7,8 @@ class ZoomOnTap extends StatefulWidget {
   final bool clipBehavior;
   final bool oneTapZoom;
   final bool doubleTapZoom;
-
+  final double? width;
+  final double? height;
   const ZoomOnTap({
     Key? key,
     required this.child,
@@ -16,6 +17,8 @@ class ZoomOnTap extends StatefulWidget {
     this.clipBehavior = true,
     this.oneTapZoom = false,
     this.doubleTapZoom = true,
+    this.width = 250.0,
+    this.height = 250.0,
   }) : super(key: key);
 
   @override
@@ -38,8 +41,8 @@ class _ZoomOnTapState extends State<ZoomOnTap>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     )..addListener(() {
-      controller.value = animation.value;
-    });
+        controller.value = animation.value;
+      });
   }
 
   @override
@@ -57,49 +60,53 @@ class _ZoomOnTapState extends State<ZoomOnTap>
       onTap: widget.doubleTapZoom
           ? null
           : () {
-        final position = tapDownDetails!.localPosition;
-        double scale = widget.zoomedScale;
-        final x = -position.dx * (scale - 1);
-        final y = -position.dy * (scale - 1);
-        final zoomed = Matrix4.identity()
-          ..translate(x, y)
-          ..scale(scale);
-        final end =
-        controller.value.isIdentity() ? zoomed : Matrix4.identity();
-        animation = Matrix4Tween(
-          begin: controller.value,
-          end: end,
-        ).animate(CurveTween(curve: Curves.easeInOut)
-            .animate(animationController));
-        animationController.forward(from: 0);
-      },
+              final position = tapDownDetails!.localPosition;
+              double scale = widget.zoomedScale;
+              final x = -position.dx * (scale - 1);
+              final y = -position.dy * (scale - 1);
+              final zoomed = Matrix4.identity()
+                ..translate(x, y)
+                ..scale(scale);
+              final end =
+                  controller.value.isIdentity() ? zoomed : Matrix4.identity();
+              animation = Matrix4Tween(
+                begin: controller.value,
+                end: end,
+              ).animate(CurveTween(curve: Curves.easeInOut)
+                  .animate(animationController));
+              animationController.forward(from: 0);
+            },
       onDoubleTap: widget.doubleTapZoom
           ? () {
-        final position = tapDownDetails!.localPosition;
-        double scale = widget.zoomedScale;
-        final x = -position.dx * (scale - 1);
-        final y = -position.dy * (scale - 1);
-        final zoomed = Matrix4.identity()
-          ..translate(x, y)
-          ..scale(scale);
-        final end =
-        controller.value.isIdentity() ? zoomed : Matrix4.identity();
-        animation = Matrix4Tween(
-          begin: controller.value,
-          end: end,
-        ).animate(CurveTween(curve: Curves.easeInOut)
-            .animate(animationController));
-        animationController.forward(from: 0);
-      }
+              final position = tapDownDetails!.localPosition;
+              double scale = widget.zoomedScale;
+              final x = -position.dx * (scale - 1);
+              final y = -position.dy * (scale - 1);
+              final zoomed = Matrix4.identity()
+                ..translate(x, y)
+                ..scale(scale);
+              final end =
+                  controller.value.isIdentity() ? zoomed : Matrix4.identity();
+              animation = Matrix4Tween(
+                begin: controller.value,
+                end: end,
+              ).animate(CurveTween(curve: Curves.easeInOut)
+                  .animate(animationController));
+              animationController.forward(from: 0);
+            }
           : null,
-      child: InteractiveViewer(
-        transformationController: controller,
-        clipBehavior: widget.clipBehavior ? Clip.hardEdge : Clip.none,
-        panEnabled: false,
-        scaleEnabled: false,
-        child: AspectRatio(
-          aspectRatio: widget.aspectRatio!,
-          child: widget.child,
+      child: SizedBox(
+        width: widget.width,
+        height: widget.height,
+        child: InteractiveViewer(
+          transformationController: controller,
+          clipBehavior: widget.clipBehavior ? Clip.hardEdge : Clip.none,
+          panEnabled: false,
+          scaleEnabled: false,
+          child: AspectRatio(
+            aspectRatio: widget.aspectRatio!,
+            child: widget.child,
+          ),
         ),
       ),
     );
