@@ -3,7 +3,14 @@ This is an image zoom package, which you can easily use.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+```dart
+ Avatar.circle(
+onTapAvatar: () {},
+radius: 35,
+text: avatar[index],
+randomGradient: true,
+randomColor: false,
+),
 
 ## Getting started
 
