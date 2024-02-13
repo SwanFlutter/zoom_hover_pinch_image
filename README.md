@@ -96,11 +96,16 @@ import 'package:zoom_hover_pinch_image/zoom_hover_pinch_image.dart';
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+ `/example`.
 
 ```dart
-const like = 'sample';
+Zoom.zoomOnTap(
+child: Image.network("https://i.pravatar.cc/300"),
+zoomedScale: 3.0,
+clipBehavior: true,
+oneTapZoom: true,
+doubleTapZoom: false,
+),
 ```
 
 ## Additional information
