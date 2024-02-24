@@ -1,13 +1,48 @@
 import 'package:flutter/material.dart';
 
+/// [Pinch] Zoom and Clip functionality: Enables pinch-to-zoom interaction on the child widget while applying clipping behavior if specified.
+/// Border radius customization: Allows you to specify the border radius for clipping the child widget.
+/// By customizing these properties, you can control the minimum and maximum zoom levels,
+/// aspect ratio, clipping behavior, and border radius, tailoring the interaction experience to your specific requirements.
 class Pinch extends StatefulWidget {
+  /// [child] (required Widget):
+  /// This is the core widget that will be displayed and interacted with within the Pinch.
+  /// It can be any valid Flutter widget that you want to apply pinch-to-zoom and clipping behavior to.
   final Widget child;
+
+  /// [borderRadius] (optional BorderRadiusGeometry, defaults to BorderRadius.zero):
+  /// Specifies the border radius for clipping the child widget.
+  /// It allows you to customize the shape of the clipped region.
   final BorderRadiusGeometry borderRadius;
+
+  /// [aspectRatio] (optional double, defaults to 1.0):
+  /// Specifies the aspect ratio of the Pinch widget.
+  /// It determines the width-to-height ratio of the widget's bounding box.
   final double? aspectRatio;
+
+  /// [minScale] (optional double, defaults to 1.0):
+  /// Sets the minimum allowed zoom level for the child widget.
+  /// Values less than 1.0 represent reduction in size.
   final double? minScale;
+
+  /// [maxScale] (optional double, defaults to 4.0):
+  /// Sets the maximum allowed zoom level for the child widget.
+  /// Values greater than 1.0 represent magnification.
   final double? maxScale;
+
+  /// [clipBehavior] (optional bool, defaults to true):
+  /// Determines whether clipping behavior should be applied to the child widget.
+  /// If true, the child widget will be clipped to the specified border radius.
   final bool clipBehavior;
+
+  /// [width] (optional double, defaults to 250.0):
+  /// Specifies the width of the Pinch in logical pixels.
+  /// This value helps determine the area within which pinch-to-zoom interaction is tracked.
   final double? width;
+
+  /// [height] (optional double, defaults to 250.0):
+  /// Defines the height of the Pinch in logical pixels.
+  /// Similar to width, it contributes to the area for tracking pinch-to-zoom interactions.
   final double? height;
   const Pinch({
     Key? key,

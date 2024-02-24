@@ -1,5 +1,11 @@
 
-This is an image zoom package, which you can easily use.
+ Zoom functionality: Enables pinch-to-zoom interaction on the child widget.
+ Border radius customization: Allows you to specify the border radius for clipping the child widget.
+ Aspect ratio customization: Specifies the aspect ratio of the widget.
+Min and max scale limits: Sets the minimum and maximum allowed zoom levels for the child widget.
+Clip behavior: Determines whether clipping behavior should be applied to the child widget.
+ By customizing these properties, you can control the zoom level, aspect ratio, clipping behavior,
+and scale limits, tailoring the interaction experience to your specific requirements.
 
 ## Features
 
@@ -84,7 +90,7 @@ doubleTapZoom: false,
 
 ```yaml
 dependencies:
-  zoom_hover_pinch_image: ^1.0.1
+  zoom_hover_pinch_image: ^1.0.2
 ```
 
 ## How to use

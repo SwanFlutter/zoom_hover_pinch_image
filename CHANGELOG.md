@@ -1,5 +1,5 @@
-## 1.0.1
+## 1.0.2
 
-* Add example folder.
+* Add Api Documentation.
 
-* Update package.
+
