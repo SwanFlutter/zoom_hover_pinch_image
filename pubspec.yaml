@@ -1,7 +1,6 @@
 name: zoom_hover_pinch_image
-description: "This is an image zoom package, which you can easily use.Zoom functionality: Enables pinch-to-zoom interaction on the child widget.
- Border radius customization: Allows you to specify the border radius for clipping the child widget."
-version: 1.0.2
+description: "An image zoom package with easy integration, pinch-to-zoom interaction, and customizable border radius."
+version: 1.0.3
 homepage: "https://github.com/SwanFlutter/zoom_hover_pinch_image.git"
 
 environment:
@@ -15,7 +14,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.1
 
 
 flutter:
