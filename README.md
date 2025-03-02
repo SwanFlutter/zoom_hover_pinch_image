@@ -15,6 +15,72 @@ child: Image.network("https://i.pravatar.cc/300"),
 clipBehavior: false,
 ),
 ```
+
+
+```dart
+
+import 'package:flutter/material.dart';
+import 'package:zoom_hover_pinch_image/zoom_hover_pinch_image.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Zoom Example')),
+        body: Center(
+          child: ZoomExample(),
+        ),
+      ),
+    );
+  }
+}
+
+class ZoomExample extends StatefulWidget {
+  @override
+  _ZoomExampleState createState() => _ZoomExampleState();
+}
+
+class _ZoomExampleState extends State<ZoomExample> {
+  final ZoomManager zoomManager = ZoomManager();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Zoom(
+          zoomManager: zoomManager,
+          minScale: 1.0,
+          maxScale: 4.0,
+          width: 300.0,
+          height: 300.0,
+          child: Image.asset('assets/image.jpg'),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            zoomManager.zoomIn(scale: 2.0);
+          },
+          child: Text('Zoom In'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            zoomManager.zoomOut();
+          },
+          child: Text('Zoom Out'),
+        ),
+      ],
+    );
+  }
+}
+
+```
+
 ![zoom](https://github.com/SwanFlutter/zoom_hover_pinch_image/assets/151648897/941d160b-c854-4aa9-803f-8da397bf6523)
 
 
@@ -33,6 +99,50 @@ clipBehavior: false,
 borderRadius: BorderRadius.circular(8.0),
 ),
 ```
+
+```dart
+
+class PinchExample extends StatefulWidget {
+  @override
+  _PinchExampleState createState() => _PinchExampleState();
+}
+
+class _PinchExampleState extends State<PinchExample> {
+  final ZoomManager zoomManager = ZoomManager();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Pinch(
+          zoomManager: zoomManager,
+          minScale: 1.0,
+          maxScale: 4.0,
+          width: 300.0,
+          height: 300.0,
+          child: Image.asset('assets/image.jpg'),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            zoomManager.zoomIn(scale: 2.0);
+          },
+          child: Text('Zoom In'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            zoomManager.zoomOut();
+          },
+          child: Text('Zoom Out'),
+        ),
+      ],
+    );
+  }
+}
+
+```
+
 ![pinch](https://github.com/SwanFlutter/zoom_hover_pinch_image/assets/151648897/0e12345b-65d9-42d1-b85e-e43b7c23ca1b)
 
 use web && windows && mac && linux
@@ -43,6 +153,51 @@ child: Image.network("https://i.pravatar.cc/300"),
 zoomedScale: 3.0
 ),
 ```
+
+```dart
+
+class HoverExample extends StatefulWidget {
+  @override
+  _HoverExampleState createState() => _HoverExampleState();
+}
+
+class _HoverExampleState extends State<HoverExample> {
+  final ZoomManager zoomManager = ZoomManager();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Hover(
+          zoomManager: zoomManager,
+          initialScale: 1.0,
+          hoverScale: 2.0,
+          width: 300.0,
+          height: 300.0,
+          child: Image.asset('assets/image.jpg'),
+        ),
+        SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            zoomManager.zoomIn(scale: 2.0);
+          },
+          child: Text('Zoom In'),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            zoomManager.zoomOut();
+          },
+          child: Text('Zoom Out'),
+        ),
+      ],
+    );
+  }
+}
+
+```
+
+
 ![haver](https://github.com/SwanFlutter/zoom_hover_pinch_image/assets/151648897/ace25916-d9db-4129-a77f-b70f43e7a294)
 
 use web && windows && mac && linux
@@ -90,7 +245,7 @@ doubleTapZoom: false,
 
 ```yaml
 dependencies:
-  zoom_hover_pinch_image: ^1.0.3
+  zoom_hover_pinch_image: ^1.0.4
 ```
 
 ## How to use

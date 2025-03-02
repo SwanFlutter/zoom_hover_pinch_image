@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zoom_hover_pinch_image/zoom_hover_pinch_image.dart';
 
 /// [Pinch] Zoom and Clip functionality: Enables pinch-to-zoom interaction on the child widget while applying clipping behavior if specified.
 /// Border radius customization: Allows you to specify the border radius for clipping the child widget.
@@ -44,8 +45,10 @@ class Pinch extends StatefulWidget {
   /// Defines the height of the Pinch in logical pixels.
   /// Similar to width, it contributes to the area for tracking pinch-to-zoom interactions.
   final double? height;
+
+  final ZoomManager? zoomManager;
   const Pinch({
-    Key? key,
+    super.key,
     required this.child,
     this.borderRadius = BorderRadius.zero,
     this.aspectRatio = 1.0,
@@ -54,7 +57,8 @@ class Pinch extends StatefulWidget {
     this.clipBehavior = true,
     this.width = 250.0,
     this.height = 250.0,
-  }) : super(key: key);
+    this.zoomManager,
+  });
 
   @override
   State<Pinch> createState() => _PinchState();

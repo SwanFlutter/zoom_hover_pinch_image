@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zoom_hover_pinch_image/zoom_hover_pinch_image.dart';
 
 /// [ZoomOnTap] Zoom functionality: Enables zooming in on the child widget when tapped on.
 /// Aspect ratio customization: Allows you to specify the aspect ratio of the widget.
@@ -46,8 +47,25 @@ class ZoomOnTap extends StatefulWidget {
   /// Defines the height of the ZoomOnTap in logical pixels.
   /// Similar to width, it contributes to the area for tracking tap events.
   final double? height;
+
+  /// [zoomManager] (required ZoomManager):
+  /// The ZoomManager instance used to manage the zoom behavior.
+  /// It provides methods for zooming in/out, toggling zoom state, and resetting transformations.
+  /// This property is required and should be provided during widget initialization.
+  ///  Example:
+  /// ```dart
+  ///   final zoomManager = ZoomManager();
+  ///  Zoom(
+  ///   zoomManager: zoomManager,
+  ///  child: Image.asset('assets/image.jpg'),
+  ///  );
+  /// ```
+  ///
+  ///
+  final ZoomManager? zoomManager;
+
   const ZoomOnTap({
-    Key? key,
+    super.key,
     required this.child,
     this.zoomedScale = 2.0,
     this.aspectRatio = 1.0,
@@ -56,7 +74,8 @@ class ZoomOnTap extends StatefulWidget {
     this.doubleTapZoom = true,
     this.width = 250.0,
     this.height = 250.0,
-  }) : super(key: key);
+    this.zoomManager,
+  });
 
   @override
   State<ZoomOnTap> createState() => _ZoomOnTapState();
