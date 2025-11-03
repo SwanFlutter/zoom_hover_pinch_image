@@ -18,7 +18,7 @@ class ZoomController extends TransformationController {
   /// Curve for zoom animations
   final Curve animationCurve;
 
-  AnimationController? _animationController;
+  late AnimationController _animationController;
   Animation<Matrix4>? _animation;
 
   ZoomController({
@@ -30,19 +30,20 @@ class ZoomController extends TransformationController {
 
   /// Initialize animation controller
   void initAnimationController(TickerProvider vsync) {
-    _animationController =
-        AnimationController(vsync: vsync, duration: animationDuration)
-          ..addListener(() {
-            if (_animation != null) {
-              value = _animation!.value;
-            }
-          });
+    _animationController = AnimationController(
+      vsync: vsync,
+      duration: animationDuration,
+    )..addListener(() {
+        if (_animation != null) {
+          value = _animation!.value;
+        }
+      });
   }
 
   /// Dispose resources
   @override
   void dispose() {
-    _animationController?.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -78,17 +79,17 @@ class ZoomController extends TransformationController {
 
   /// Animate to a specific transformation matrix
   void animateTo(Matrix4 targetMatrix) {
-    if (_animationController == null) {
-      // If animation controller is not initialized, set value directly
-      value = targetMatrix;
-      return;
-    }
-
-    _animation = Matrix4Tween(begin: value, end: targetMatrix).animate(
-      CurvedAnimation(parent: _animationController!, curve: animationCurve),
+    _animation = Matrix4Tween(
+      begin: value,
+      end: targetMatrix,
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: animationCurve,
+      ),
     );
 
-    _animationController!.forward(from: 0);
+    _animationController.forward(from: 0);
   }
 
   /// Create a zoom matrix for a specific point and scale
