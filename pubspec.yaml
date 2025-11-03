@@ -1,0 +1,23 @@
+name: zoom_hover_pinch_image
+description: "An image zoom package with easy integration, pinch-to-zoom interaction, and customizable border radius."
+version: 1.0.5
+repository: https://github.com/SwanFlutter/zoom_hover_pinch_image
+homepage: "https://github.com/SwanFlutter/zoom_hover_pinch_image.git"
+issue_tracker: https://github.com/SwanFlutter/zoom_hover_pinch_image/issues 
+
+environment:
+  sdk: ^3.9.2
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+
+flutter:
+
