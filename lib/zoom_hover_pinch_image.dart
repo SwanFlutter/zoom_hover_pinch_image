@@ -6,8 +6,17 @@ import 'package:zoom_hover_pinch_image/src/widget/zoom_controller.dart';
 import 'package:zoom_hover_pinch_image/src/widget/zoom_manager.dart';
 import 'package:zoom_hover_pinch_image/src/widget/zoom_on_tap.dart';
 
+// Export original widgets
 export 'package:zoom_hover_pinch_image/src/widget/zoom_controller.dart';
 export 'package:zoom_hover_pinch_image/src/widget/zoom_manager.dart';
+
+// Export enhanced widgets and utilities
+export 'package:zoom_hover_pinch_image/src/widget/enhanced_zoom.dart';
+export 'package:zoom_hover_pinch_image/src/config/zoom_config.dart';
+export 'package:zoom_hover_pinch_image/src/utils/zoom_utils.dart';
+export 'package:zoom_hover_pinch_image/src/utils/performance_monitor.dart';
+export 'package:zoom_hover_pinch_image/src/utils/error_handler.dart';
+export 'package:zoom_hover_pinch_image/src/utils/accessibility_helper.dart';
 
 /// [Zoom] Zoom functionality: Enables pinch-to-zoom interaction on the child widget.
 /// Example:

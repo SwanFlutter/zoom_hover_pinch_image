@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 /// Zoom state manager to synchronize multiple zoom widgets
 /// [ZoomManager] is used to manage zoom state across multiple widgets
@@ -134,10 +135,10 @@ class ZoomManager extends ChangeNotifier {
   /// Apply the current transformation to a matrix
   Matrix4 get matrix4 {
     final Matrix4 matrix = Matrix4.identity()
-      ..translate(focalPoint.dx, focalPoint.dy)
+      ..translateByVector3(Vector3(focalPoint.dx, focalPoint.dy, 0))
       ..rotateZ(rotation)
-      ..scale(scale, scale)
-      ..translate(-focalPoint.dx, -focalPoint.dy);
+      ..scaleByDouble(scale, scale, 1.0, 1.0)
+      ..translateByVector3(Vector3(-focalPoint.dx, -focalPoint.dy, 0));
 
     return matrix;
   }

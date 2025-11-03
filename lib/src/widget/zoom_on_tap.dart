@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart';
 import 'package:zoom_hover_pinch_image/zoom_hover_pinch_image.dart';
 
 /// [ZoomOnTap] Zoom functionality: Enables zooming in on the child widget when tapped on.
@@ -121,8 +122,8 @@ class _ZoomOnTapState extends State<ZoomOnTap>
               final x = -position.dx * (scale - 1);
               final y = -position.dy * (scale - 1);
               final zoomed = Matrix4.identity()
-                ..translate(x, y)
-                ..scale(scale);
+                ..translateByVector3(Vector3(x, y, 0))
+                ..scaleByDouble(scale, scale, 1.0, 1.0);
               final end =
                   controller.value.isIdentity() ? zoomed : Matrix4.identity();
               animation = Matrix4Tween(
@@ -139,8 +140,8 @@ class _ZoomOnTapState extends State<ZoomOnTap>
               final x = -position.dx * (scale - 1);
               final y = -position.dy * (scale - 1);
               final zoomed = Matrix4.identity()
-                ..translate(x, y)
-                ..scale(scale);
+                ..translateByVector3(Vector3(x, y, 0))
+                ..scaleByDouble(scale, scale, 1.0, 1.0);
               final end =
                   controller.value.isIdentity() ? zoomed : Matrix4.identity();
               animation = Matrix4Tween(

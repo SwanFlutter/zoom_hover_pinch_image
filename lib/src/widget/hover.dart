@@ -155,7 +155,8 @@ class _HoverState extends State<Hover> with SingleTickerProviderStateMixin {
                   alignment: Alignment.center,
                   transform: Matrix4.identity()
                     ..setEntry(3, 2, 0.001) // Perspective
-                    ..scale(_scaleAnimation.value)
+                    ..scaleByDouble(
+                        _scaleAnimation.value, _scaleAnimation.value, 1.0, 1.0)
                     ..rotateX(widget.smoothTracking ? _focalPoint.dy * 0.05 : 0)
                     ..rotateY(
                         widget.smoothTracking ? -_focalPoint.dx * 0.05 : 0),

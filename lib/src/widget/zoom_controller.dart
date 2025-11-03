@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 /// Controller class for managing zoom functionality across different widgets
 /// Provides a unified interface for zoom operations
@@ -56,8 +57,8 @@ class ZoomController extends TransformationController {
     final y = -focalPoint.dy * (targetScale - 1);
 
     final zoomed = Matrix4.identity()
-      ..translate(x, y)
-      ..scale(targetScale);
+      ..translateByVector3(Vector3(x, y, 0))
+      ..scaleByDouble(targetScale, targetScale, 1.0, 1.0);
 
     animateTo(zoomed);
   }
@@ -98,8 +99,8 @@ class ZoomController extends TransformationController {
     final y = -focalPoint.dy * (scale - 1);
 
     return Matrix4.identity()
-      ..translate(x, y)
-      ..scale(scale);
+      ..translateByVector3(Vector3(x, y, 0))
+      ..scaleByDouble(scale, scale, 1.0, 1.0);
   }
 
   /// Check if controller is at identity (no zoom)
