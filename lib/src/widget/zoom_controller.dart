@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart';
@@ -30,14 +30,13 @@ class ZoomController extends TransformationController {
 
   /// Initialize animation controller
   void initAnimationController(TickerProvider vsync) {
-    _animationController = AnimationController(
-      vsync: vsync,
-      duration: animationDuration,
-    )..addListener(() {
-        if (_animation != null) {
-          value = _animation!.value;
-        }
-      });
+    _animationController =
+        AnimationController(vsync: vsync, duration: animationDuration)
+          ..addListener(() {
+            if (_animation != null) {
+              value = _animation!.value;
+            }
+          });
   }
 
   /// Dispose resources
@@ -79,14 +78,8 @@ class ZoomController extends TransformationController {
 
   /// Animate to a specific transformation matrix
   void animateTo(Matrix4 targetMatrix) {
-    _animation = Matrix4Tween(
-      begin: value,
-      end: targetMatrix,
-    ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: animationCurve,
-      ),
+    _animation = Matrix4Tween(begin: value, end: targetMatrix).animate(
+      CurvedAnimation(parent: _animationController, curve: animationCurve),
     );
 
     _animationController.forward(from: 0);

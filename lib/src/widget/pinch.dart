@@ -76,12 +76,13 @@ class _PinchState extends State<Pinch> with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
     controller = TransformationController();
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    )..addListener(() {
-        controller.value = animation.value;
-      });
+    animationController =
+        AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 300),
+        )..addListener(() {
+          controller.value = animation.value;
+        });
   }
 
   @override
@@ -91,10 +92,10 @@ class _PinchState extends State<Pinch> with SingleTickerProviderStateMixin {
   }
 
   void restAnimation() {
-    animation =
-        Matrix4Tween(begin: controller.value, end: Matrix4.identity()).animate(
-      CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
-    );
+    animation = Matrix4Tween(begin: controller.value, end: Matrix4.identity())
+        .animate(
+          CurvedAnimation(parent: animationController, curve: Curves.easeInOut),
+        );
     animationController.forward(from: 0);
   }
 

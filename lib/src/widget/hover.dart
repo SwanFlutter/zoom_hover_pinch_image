@@ -86,15 +86,13 @@ class _HoverState extends State<Hover> with SingleTickerProviderStateMixin {
       duration: widget.animationDuration,
     );
 
-    _scaleAnimation = Tween<double>(
-      begin: widget.initialScale,
-      end: widget.hoverScale,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: widget.animationCurve,
-      ),
-    );
+    _scaleAnimation =
+        Tween<double>(
+          begin: widget.initialScale,
+          end: widget.hoverScale,
+        ).animate(
+          CurvedAnimation(parent: _controller, curve: widget.animationCurve),
+        );
   }
 
   @override
@@ -128,8 +126,10 @@ class _HoverState extends State<Hover> with SingleTickerProviderStateMixin {
           ? (event) {
               // Calculate relative position within the container
               setState(() {
-                final size =
-                    Size(widget.width ?? 250.0, widget.height ?? 250.0);
+                final size = Size(
+                  widget.width ?? 250.0,
+                  widget.height ?? 250.0,
+                );
                 _focalPoint = Offset(
                   (event.localPosition.dx / size.width) - 0.5,
                   (event.localPosition.dy / size.height) - 0.5,
@@ -143,11 +143,10 @@ class _HoverState extends State<Hover> with SingleTickerProviderStateMixin {
           return Container(
             width: widget.width,
             height: widget.height,
-            clipBehavior:
-                widget.borderRadius != null ? Clip.antiAlias : Clip.none,
-            decoration: BoxDecoration(
-              borderRadius: widget.borderRadius,
-            ),
+            clipBehavior: widget.borderRadius != null
+                ? Clip.antiAlias
+                : Clip.none,
+            decoration: BoxDecoration(borderRadius: widget.borderRadius),
             child: Stack(
               children: [
                 // Main content with transform
@@ -156,10 +155,15 @@ class _HoverState extends State<Hover> with SingleTickerProviderStateMixin {
                   transform: Matrix4.identity()
                     ..setEntry(3, 2, 0.001) // Perspective
                     ..scaleByDouble(
-                        _scaleAnimation.value, _scaleAnimation.value, 1.0, 1.0)
+                      _scaleAnimation.value,
+                      _scaleAnimation.value,
+                      1.0,
+                      1.0,
+                    )
                     ..rotateX(widget.smoothTracking ? _focalPoint.dy * 0.05 : 0)
                     ..rotateY(
-                        widget.smoothTracking ? -_focalPoint.dx * 0.05 : 0),
+                      widget.smoothTracking ? -_focalPoint.dx * 0.05 : 0,
+                    ),
                   child: widget.child,
                 ),
 

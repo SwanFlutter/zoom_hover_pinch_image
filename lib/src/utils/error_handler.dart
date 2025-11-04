@@ -278,16 +278,9 @@ class _ZoomErrorBoundaryState extends State<ZoomErrorBoundary> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.error_outline,
-            size: 48,
-            color: Colors.red,
-          ),
+          const Icon(Icons.error_outline, size: 48, color: Colors.red),
           const SizedBox(height: 16),
-          Text(
-            'Zoom Error',
-            style: Theme.of(context).textTheme.headlineSmall,
-          ),
+          Text('Zoom Error', style: Theme.of(context).textTheme.headlineSmall),
           const SizedBox(height: 8),
           Text(
             _error?.message ?? 'An error occurred',

@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart';
 import 'package:zoom_hover_pinch_image/zoom_hover_pinch_image.dart';
@@ -94,12 +96,13 @@ class _ZoomOnTapState extends State<ZoomOnTap>
   void initState() {
     super.initState();
     controller = TransformationController();
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    )..addListener(() {
-        controller.value = animation.value;
-      });
+    animationController =
+        AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 300),
+        )..addListener(() {
+          controller.value = animation.value;
+        });
   }
 
   @override
@@ -124,13 +127,15 @@ class _ZoomOnTapState extends State<ZoomOnTap>
               final zoomed = Matrix4.identity()
                 ..translateByVector3(Vector3(x, y, 0))
                 ..scaleByDouble(scale, scale, 1.0, 1.0);
-              final end =
-                  controller.value.isIdentity() ? zoomed : Matrix4.identity();
-              animation = Matrix4Tween(
-                begin: controller.value,
-                end: end,
-              ).animate(CurveTween(curve: Curves.easeInOut)
-                  .animate(animationController));
+              final end = controller.value.isIdentity()
+                  ? zoomed
+                  : Matrix4.identity();
+              animation = Matrix4Tween(begin: controller.value, end: end)
+                  .animate(
+                    CurveTween(
+                      curve: Curves.easeInOut,
+                    ).animate(animationController),
+                  );
               animationController.forward(from: 0);
             },
       onDoubleTap: widget.doubleTapZoom
@@ -142,13 +147,15 @@ class _ZoomOnTapState extends State<ZoomOnTap>
               final zoomed = Matrix4.identity()
                 ..translateByVector3(Vector3(x, y, 0))
                 ..scaleByDouble(scale, scale, 1.0, 1.0);
-              final end =
-                  controller.value.isIdentity() ? zoomed : Matrix4.identity();
-              animation = Matrix4Tween(
-                begin: controller.value,
-                end: end,
-              ).animate(CurveTween(curve: Curves.easeInOut)
-                  .animate(animationController));
+              final end = controller.value.isIdentity()
+                  ? zoomed
+                  : Matrix4.identity();
+              animation = Matrix4Tween(begin: controller.value, end: end)
+                  .animate(
+                    CurveTween(
+                      curve: Curves.easeInOut,
+                    ).animate(animationController),
+                  );
               animationController.forward(from: 0);
             }
           : null,

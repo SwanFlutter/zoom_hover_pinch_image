@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:vector_math/vector_math_64.dart';
 
@@ -34,10 +36,10 @@ class ZoomManager extends ChangeNotifier {
     this.minScale = 1.0,
     this.maxScale = 4.0,
     this.defaultZoomScale = 2.0,
-  })  : _scale = initialScale,
-        _rotation = initialRotation,
-        _focalPoint = initialFocalPoint,
-        _isZoomed = initialScale > 1.0;
+  }) : _scale = initialScale,
+       _rotation = initialRotation,
+       _focalPoint = initialFocalPoint,
+       _isZoomed = initialScale > 1.0;
 
   /// Current scale getter
   double get scale => _scale;
@@ -107,8 +109,11 @@ class ZoomManager extends ChangeNotifier {
   }
 
   /// Update all transformation parameters at once
-  void updateTransformation(
-      {double? scale, double? rotation, Offset? focalPoint}) {
+  void updateTransformation({
+    double? scale,
+    double? rotation,
+    Offset? focalPoint,
+  }) {
     bool shouldNotify = false;
 
     if (scale != null && _scale != scale) {

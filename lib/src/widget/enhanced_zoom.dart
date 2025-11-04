@@ -1,6 +1,9 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vector_math/vector_math_64.dart' hide Colors;
+
 import '../config/zoom_config.dart';
 import '../utils/zoom_utils.dart';
 
@@ -8,31 +11,31 @@ import '../utils/zoom_utils.dart';
 class EnhancedZoom extends StatefulWidget {
   /// The child widget to be zoomed
   final Widget child;
-  
+
   /// Zoom configuration
   final ZoomConfig config;
-  
+
   /// Border radius for clipping
   final BorderRadiusGeometry borderRadius;
-  
+
   /// Clip behavior
   final Clip clipBehavior;
-  
+
   /// Callback when zoom changes
   final ValueChanged<double>? onZoomChanged;
-  
+
   /// Callback when pan changes
   final ValueChanged<Offset>? onPanChanged;
-  
+
   /// Callback when zoom starts
   final VoidCallback? onZoomStart;
-  
+
   /// Callback when zoom ends
   final VoidCallback? onZoomEnd;
-  
+
   /// Whether to enable semantic labels for accessibility
   final bool enableSemantics;
-  
+
   /// Custom semantic label
   final String? semanticLabel;
 
@@ -59,11 +62,11 @@ class _EnhancedZoomState extends State<EnhancedZoom>
   late TransformationController _controller;
   late AnimationController _animationController;
   late Animation<Matrix4> _animation;
-  
+
   double _currentScale = 1.0;
   Offset _currentPan = Offset.zero;
   bool _isZooming = false;
-  
+
   @override
   void initState() {
     super.initState();
@@ -72,10 +75,10 @@ class _EnhancedZoomState extends State<EnhancedZoom>
       duration: widget.config.animationDuration,
       vsync: this,
     );
-    
+
     _currentScale = widget.config.initialScale;
     _controller.addListener(_onTransformationChanged);
-    
+
     // Set initial scale if different from 1.0
     if (widget.config.initialScale != 1.0) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -96,12 +99,12 @@ class _EnhancedZoomState extends State<EnhancedZoom>
     final matrix = _controller.value;
     final scale = matrix.getMaxScaleOnAxis();
     final translation = matrix.getTranslation();
-    
+
     if (_currentScale != scale) {
       _currentScale = scale;
       widget.onZoomChanged?.call(scale);
     }
-    
+
     final pan = Offset(translation.x, translation.y);
     if (_currentPan != pan) {
       _currentPan = pan;
@@ -115,44 +118,44 @@ class _EnhancedZoomState extends State<EnhancedZoom>
       min: widget.config.minScale,
       max: widget.config.maxScale,
     );
-    
+
     final center = focalPoint ?? Offset.zero;
     final matrix = Matrix4.identity()
       ..translateByVector3(Vector3(center.dx, center.dy, 0))
       ..scaleByDouble(scale, scale, 1.0, 1.0)
       ..translateByVector3(Vector3(-center.dx, -center.dy, 0));
-    
+
     _animateToMatrix(matrix);
   }
 
   void _animateToMatrix(Matrix4 targetMatrix) {
-    _animation = Matrix4Tween(
-      begin: _controller.value,
-      end: targetMatrix,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: widget.config.animationCurve,
-    ));
-    
+    _animation = Matrix4Tween(begin: _controller.value, end: targetMatrix)
+        .animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: widget.config.animationCurve,
+          ),
+        );
+
     _animation.addListener(() {
       _controller.value = _animation.value;
     });
-    
+
     _animationController.forward(from: 0);
   }
 
   void _handleDoubleTap(TapDownDetails details) {
     if (!widget.config.enableDoubleTapZoom) return;
-    
+
     if (widget.config.enableHapticFeedback) {
       HapticFeedback.lightImpact();
     }
-    
+
     final isZoomedIn = _currentScale > widget.config.initialScale;
-    final targetScale = isZoomedIn 
-        ? widget.config.initialScale 
+    final targetScale = isZoomedIn
+        ? widget.config.initialScale
         : widget.config.maxScale * 0.7;
-    
+
     _setScale(targetScale, focalPoint: details.localPosition);
   }
 
@@ -160,7 +163,7 @@ class _EnhancedZoomState extends State<EnhancedZoom>
     if (!_isZooming) {
       _isZooming = true;
       widget.onZoomStart?.call();
-      
+
       if (widget.config.enableHapticFeedback) {
         HapticFeedback.selectionClick();
       }
@@ -169,11 +172,14 @@ class _EnhancedZoomState extends State<EnhancedZoom>
 
   void _handleScaleUpdate(ScaleUpdateDetails details) {
     if (!widget.config.enablePinchZoom && details.scale != 1.0) return;
-    if (!widget.config.enablePanning && details.focalPointDelta != Offset.zero) return;
-    
+    if (!widget.config.enablePanning &&
+        details.focalPointDelta != Offset.zero) {
+      return;
+    }
+
     final scale = details.scale * widget.config.zoomSensitivity;
     final pan = details.focalPointDelta * widget.config.panSensitivity;
-    
+
     // Apply scale constraints
     final currentMatrix = _controller.value;
     final currentScale = currentMatrix.getMaxScaleOnAxis();
@@ -182,12 +188,17 @@ class _EnhancedZoomState extends State<EnhancedZoom>
       min: widget.config.minScale,
       max: widget.config.maxScale,
     );
-    
+
     // Create transformation matrix
     final matrix = Matrix4.identity()
       ..translateByVector3(Vector3(pan.dx, pan.dy, 0))
-      ..scaleByDouble(newScale / currentScale, newScale / currentScale, 1.0, 1.0);
-    
+      ..scaleByDouble(
+        newScale / currentScale,
+        newScale / currentScale,
+        1.0,
+        1.0,
+      );
+
     _controller.value = currentMatrix * matrix;
   }
 
@@ -200,14 +211,14 @@ class _EnhancedZoomState extends State<EnhancedZoom>
 
   Widget _buildZoomIndicator() {
     if (!widget.config.showZoomIndicators) return const SizedBox.shrink();
-    
+
     return Positioned(
       top: 16,
       right: 16,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: widget.config.indicatorColor.withOpacity(0.8),
+          color: widget.config.indicatorColor.withValues(alpha: 0.8),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Text(
@@ -248,12 +259,7 @@ class _EnhancedZoomState extends State<EnhancedZoom>
     }
 
     // Add zoom indicator
-    zoomWidget = Stack(
-      children: [
-        zoomWidget,
-        _buildZoomIndicator(),
-      ],
-    );
+    zoomWidget = Stack(children: [zoomWidget, _buildZoomIndicator()]);
 
     // Add semantics for accessibility
     if (widget.enableSemantics) {

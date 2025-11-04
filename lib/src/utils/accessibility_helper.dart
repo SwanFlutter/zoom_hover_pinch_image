@@ -15,7 +15,7 @@ class AccessibilityHelper {
       return 'Zoomed in to $percentage percent';
     }
   }
-  
+
   /// Generate semantic hint for zoom actions
   static String getZoomHint({
     bool canZoomIn = true,
@@ -24,22 +24,22 @@ class AccessibilityHelper {
     bool hasDoubleTap = true,
   }) {
     final actions = <String>[];
-    
+
     if (hasDoubleTap) {
       actions.add('Double tap to zoom');
     }
-    
+
     if (canZoomIn || canZoomOut) {
       actions.add('Pinch to zoom in or out');
     }
-    
+
     if (canPan) {
       actions.add('Drag to move around');
     }
-    
+
     return actions.join(', ');
   }
-  
+
   /// Create semantic properties for zoom widget
   static SemanticsProperties createZoomSemantics({
     required double currentScale,
@@ -55,7 +55,7 @@ class AccessibilityHelper {
       label: customLabel ?? getZoomLevelLabel(currentScale),
       hint: customHint ?? getZoomHint(),
       value: '${(currentScale * 100).round()}%',
-      increasedValue: currentScale < maxScale 
+      increasedValue: currentScale < maxScale
           ? '${((currentScale * 1.2).clamp(minScale, maxScale) * 100).round()}%'
           : null,
       decreasedValue: currentScale > minScale
@@ -66,23 +66,23 @@ class AccessibilityHelper {
       onTap: onReset,
     );
   }
-  
+
   /// Announce zoom level change to screen readers
   static void announceZoomChange(double scale, {String? customMessage}) {
     final message = customMessage ?? getZoomLevelLabel(scale);
     SemanticsService.announce(message, TextDirection.ltr);
   }
-  
+
   /// Check if high contrast mode is enabled
   static bool isHighContrastEnabled(BuildContext context) {
     return MediaQuery.of(context).highContrast;
   }
-  
+
   /// Check if animations should be reduced
   static bool shouldReduceAnimations(BuildContext context) {
     return MediaQuery.of(context).disableAnimations;
   }
-  
+
   /// Get appropriate animation duration based on accessibility settings
   static Duration getAccessibleAnimationDuration(
     BuildContext context,
@@ -93,7 +93,7 @@ class AccessibilityHelper {
     }
     return defaultDuration;
   }
-  
+
   /// Create accessible zoom controls
   static Widget createZoomControls({
     required double currentScale,
@@ -129,7 +129,7 @@ class AccessibilityHelper {
       ),
     );
   }
-  
+
   /// Create accessible zoom slider
   static Widget createZoomSlider({
     required double currentScale,
@@ -153,7 +153,7 @@ class AccessibilityHelper {
       ),
     );
   }
-  
+
   /// Handle keyboard shortcuts for zoom
   static Widget createKeyboardShortcuts({
     required Widget child,
@@ -169,10 +169,14 @@ class AccessibilityHelper {
         LogicalKeySet(LogicalKeyboardKey.minus): const ZoomOutIntent(),
         LogicalKeySet(LogicalKeyboardKey.digit0): const ResetZoomIntent(),
         LogicalKeySet(LogicalKeyboardKey.keyF): const FitToScreenIntent(),
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.equal): const ZoomInIntent(),
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.add): const ZoomInIntent(),
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.minus): const ZoomOutIntent(),
-        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit0): const ResetZoomIntent(),
+        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.equal):
+            const ZoomInIntent(),
+        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.add):
+            const ZoomInIntent(),
+        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.minus):
+            const ZoomOutIntent(),
+        LogicalKeySet(LogicalKeyboardKey.control, LogicalKeyboardKey.digit0):
+            const ResetZoomIntent(),
       },
       child: Actions(
         actions: {
@@ -189,14 +193,11 @@ class AccessibilityHelper {
             onInvoke: (_) => onFitToScreen(),
           ),
         },
-        child: Focus(
-          autofocus: true,
-          child: child,
-        ),
+        child: Focus(autofocus: true, child: child),
       ),
     );
   }
-  
+
   /// Create voice-over friendly description
   static String createVoiceOverDescription({
     required String contentType,
@@ -206,26 +207,28 @@ class AccessibilityHelper {
     bool isPannable = true,
   }) {
     final buffer = StringBuffer();
-    
-    buffer.write('$contentType');
-    
+
+    buffer.write(contentType);
+
     if (contentSize != null) {
-      buffer.write(', ${contentSize.width.round()} by ${contentSize.height.round()} pixels');
+      buffer.write(
+        ', ${contentSize.width.round()} by ${contentSize.height.round()} pixels',
+      );
     }
-    
+
     buffer.write(', currently at ${(currentScale * 100).round()} percent zoom');
-    
+
     if (isZoomable) {
       buffer.write(', zoomable');
     }
-    
+
     if (isPannable) {
       buffer.write(', pannable');
     }
-    
+
     return buffer.toString();
   }
-  
+
   /// Provide haptic feedback for zoom actions
   static void provideZoomFeedback(ZoomFeedbackType type) {
     switch (type) {
@@ -264,13 +267,7 @@ class FitToScreenIntent extends Intent {
 }
 
 /// Types of zoom feedback
-enum ZoomFeedbackType {
-  zoomIn,
-  zoomOut,
-  reset,
-  limitReached,
-  doubleTap,
-}
+enum ZoomFeedbackType { zoomIn, zoomOut, reset, limitReached, doubleTap }
 
 /// Accessibility-aware zoom widget wrapper
 class AccessibleZoom extends StatefulWidget {
@@ -285,7 +282,7 @@ class AccessibleZoom extends StatefulWidget {
   final Size? contentSize;
   final bool showControls;
   final bool enableKeyboardShortcuts;
-  
+
   const AccessibleZoom({
     super.key,
     required this.child,
@@ -300,46 +297,57 @@ class AccessibleZoom extends StatefulWidget {
     this.showControls = false,
     this.enableKeyboardShortcuts = true,
   });
-  
+
   @override
   State<AccessibleZoom> createState() => _AccessibleZoomState();
 }
 
 class _AccessibleZoomState extends State<AccessibleZoom> {
   void _zoomIn() {
-    final newScale = (widget.currentScale * 1.2).clamp(widget.minScale, widget.maxScale);
+    final newScale = (widget.currentScale * 1.2).clamp(
+      widget.minScale,
+      widget.maxScale,
+    );
     widget.onScaleChanged?.call(newScale);
     AccessibilityHelper.provideZoomFeedback(ZoomFeedbackType.zoomIn);
     AccessibilityHelper.announceZoomChange(newScale);
   }
-  
+
   void _zoomOut() {
-    final newScale = (widget.currentScale / 1.2).clamp(widget.minScale, widget.maxScale);
+    final newScale = (widget.currentScale / 1.2).clamp(
+      widget.minScale,
+      widget.maxScale,
+    );
     widget.onScaleChanged?.call(newScale);
     AccessibilityHelper.provideZoomFeedback(ZoomFeedbackType.zoomOut);
     AccessibilityHelper.announceZoomChange(newScale);
   }
-  
+
   void _reset() {
     widget.onReset?.call();
     AccessibilityHelper.provideZoomFeedback(ZoomFeedbackType.reset);
-    AccessibilityHelper.announceZoomChange(1.0, customMessage: 'Reset to normal size');
+    AccessibilityHelper.announceZoomChange(
+      1.0,
+      customMessage: 'Reset to normal size',
+    );
   }
-  
+
   void _fitToScreen() {
     // This would typically calculate the best fit scale
     widget.onScaleChanged?.call(1.0);
     AccessibilityHelper.announceZoomChange(1.0, customMessage: 'Fit to screen');
   }
-  
+
   @override
   Widget build(BuildContext context) {
     Widget child = Semantics(
-      label: widget.semanticLabel ?? AccessibilityHelper.createVoiceOverDescription(
-        contentType: widget.contentType!,
-        currentScale: widget.currentScale,
-        contentSize: widget.contentSize,
-      ),
+      label:
+          widget.semanticLabel ??
+          AccessibilityHelper.createVoiceOverDescription(
+            contentType: widget.contentType!,
+            currentScale: widget.currentScale,
+            contentSize: widget.contentSize,
+          ),
       hint: AccessibilityHelper.getZoomHint(),
       value: '${(widget.currentScale * 100).round()}%',
       onIncrease: widget.currentScale < widget.maxScale ? _zoomIn : null,
@@ -347,7 +355,7 @@ class _AccessibleZoomState extends State<AccessibleZoom> {
       onTap: _reset,
       child: widget.child,
     );
-    
+
     if (widget.enableKeyboardShortcuts) {
       child = AccessibilityHelper.createKeyboardShortcuts(
         onZoomIn: _zoomIn,
@@ -357,7 +365,7 @@ class _AccessibleZoomState extends State<AccessibleZoom> {
         child: child,
       );
     }
-    
+
     if (widget.showControls) {
       child = Stack(
         children: [
@@ -377,7 +385,7 @@ class _AccessibleZoomState extends State<AccessibleZoom> {
         ],
       );
     }
-    
+
     return child;
   }
 }

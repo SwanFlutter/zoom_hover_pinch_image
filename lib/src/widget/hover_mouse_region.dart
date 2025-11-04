@@ -151,21 +151,21 @@ class _HoverMouseRegionState extends State<HoverMouseRegion>
     final double targetWidth = widget.hoverWidth ?? widget.width!;
     final double targetHeight = widget.hoverHeight ?? widget.height!;
 
-    _widthAnimation = Tween<double>(
-      begin: widget.width!,
-      end: targetWidth,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOutCubic,
-    ));
+    _widthAnimation = Tween<double>(begin: widget.width!, end: targetWidth)
+        .animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
 
-    _heightAnimation = Tween<double>(
-      begin: widget.height!,
-      end: targetHeight,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOutCubic,
-    ));
+    _heightAnimation = Tween<double>(begin: widget.height!, end: targetHeight)
+        .animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeOutCubic,
+          ),
+        );
   }
 
   @override
@@ -209,19 +209,19 @@ class _HoverMouseRegionState extends State<HoverMouseRegion>
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {
-        final double currentWidth =
-            hasCustomHoverSize ? _widthAnimation.value : widget.width!;
-        final double currentHeight =
-            hasCustomHoverSize ? _heightAnimation.value : widget.height!;
+        final double currentWidth = hasCustomHoverSize
+            ? _widthAnimation.value
+            : widget.width!;
+        final double currentHeight = hasCustomHoverSize
+            ? _heightAnimation.value
+            : widget.height!;
 
         return Container(
           key: _containerKey,
           width: currentWidth,
           height: currentHeight,
           clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-          ),
+          decoration: BoxDecoration(color: Colors.transparent),
           child: MouseRegion(
             onEnter: (event) {
               setState(() {
@@ -252,10 +252,7 @@ class _HoverMouseRegionState extends State<HoverMouseRegion>
                       -normalizedPosition.dx * currentWidth * (scale - 1),
                       -normalizedPosition.dy * currentHeight * (scale - 1),
                     ),
-                    child: Transform.scale(
-                      scale: scale,
-                      child: widget.child,
-                    ),
+                    child: Transform.scale(scale: scale, child: widget.child),
                   ),
                 ),
               ],

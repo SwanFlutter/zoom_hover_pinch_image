@@ -305,10 +305,9 @@ class _ConfigurableZoomExampleState extends State<ConfigurableZoomExample> {
                     'Double Tap Zoom',
                     _config.enableDoubleTapZoom,
                     (value) => setState(
-                      () =>
-                          _config = _config.copyWith(
-                            enableDoubleTapZoom: value,
-                          ),
+                      () => _config = _config.copyWith(
+                        enableDoubleTapZoom: value,
+                      ),
                     ),
                   ),
                   _buildSwitch(
@@ -323,10 +322,9 @@ class _ConfigurableZoomExampleState extends State<ConfigurableZoomExample> {
                     'Haptic Feedback',
                     _config.enableHapticFeedback,
                     (value) => setState(
-                      () =>
-                          _config = _config.copyWith(
-                            enableHapticFeedback: value,
-                          ),
+                      () => _config = _config.copyWith(
+                        enableHapticFeedback: value,
+                      ),
                     ),
                   ),
                 ],
