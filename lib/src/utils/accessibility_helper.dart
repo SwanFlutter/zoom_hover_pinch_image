@@ -68,9 +68,14 @@ class AccessibilityHelper {
   }
 
   /// Announce zoom level change to screen readers
-  static void announceZoomChange(double scale, {String? customMessage}) {
+  static void announceZoomChange(
+    double scale, {
+    String? customMessage,
+    required BuildContext context,
+  }) {
     final message = customMessage ?? getZoomLevelLabel(scale);
-    SemanticsService.announce(message, TextDirection.ltr);
+    final view = View.of(context);
+    SemanticsService.sendAnnouncement(view, message, TextDirection.ltr);
   }
 
   /// Check if high contrast mode is enabled
@@ -310,7 +315,7 @@ class _AccessibleZoomState extends State<AccessibleZoom> {
     );
     widget.onScaleChanged?.call(newScale);
     AccessibilityHelper.provideZoomFeedback(ZoomFeedbackType.zoomIn);
-    AccessibilityHelper.announceZoomChange(newScale);
+    AccessibilityHelper.announceZoomChange(context: context, newScale);
   }
 
   void _zoomOut() {
@@ -320,13 +325,14 @@ class _AccessibleZoomState extends State<AccessibleZoom> {
     );
     widget.onScaleChanged?.call(newScale);
     AccessibilityHelper.provideZoomFeedback(ZoomFeedbackType.zoomOut);
-    AccessibilityHelper.announceZoomChange(newScale);
+    AccessibilityHelper.announceZoomChange(context: context, newScale);
   }
 
   void _reset() {
     widget.onReset?.call();
     AccessibilityHelper.provideZoomFeedback(ZoomFeedbackType.reset);
     AccessibilityHelper.announceZoomChange(
+      context: context,
       1.0,
       customMessage: 'Reset to normal size',
     );
@@ -335,7 +341,11 @@ class _AccessibleZoomState extends State<AccessibleZoom> {
   void _fitToScreen() {
     // This would typically calculate the best fit scale
     widget.onScaleChanged?.call(1.0);
-    AccessibilityHelper.announceZoomChange(1.0, customMessage: 'Fit to screen');
+    AccessibilityHelper.announceZoomChange(
+      context: context,
+      1.0,
+      customMessage: 'Fit to screen',
+    );
   }
 
   @override

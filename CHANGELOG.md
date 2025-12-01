@@ -22,3 +22,8 @@
 * Update SDK
 * Update package
 * Fix Pub Point.
+
+
+## 1.1.0
+
+* Fix Pub Point.
